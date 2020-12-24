@@ -7,7 +7,7 @@ defmodule SuperIssuerWeb.SessionController do
   end
 
   def create(conn, %{"session" => auth_params}) do
-    user = User.get_by_username(auth_params["username"])
+    user = User.get_by_user_name(auth_params["username"])
 
     case Comeonin.Bcrypt.check_pass(user, auth_params["password"]) do
       {:ok, user} ->

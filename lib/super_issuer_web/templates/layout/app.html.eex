@@ -34,31 +34,6 @@
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <header>
-      <section class="container">
-        <nav role="navigation">
-          <ul>
-            <li>
-              <%= if Plug.Conn.get_session(@conn, :current_user_id) do %>
-                <%= link @conn
-                |> Plug.Conn.get_session(:current_user_id)
-                |> SuperIssuer.User.get_by_userid()
-                |> Map.get(:username),
-                 to: Routes.user_path(@conn, :index)%>
-              <% else %>
-                <%= link "Sign in", to: Routes.session_path(@conn, :new) %>
-              <% end %>
-            </li>
-            <!--<%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>-->
-          </ul>
-        </nav>
-        <a href="https://leeduckgo.com/" class="phx-logo">
-          <center><h1>超级发证</h1></center>
-        </a>
-      </section>
-    </header>
     <main role="main" class="container">
       <!--<p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>-->

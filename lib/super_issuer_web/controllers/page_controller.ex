@@ -4,7 +4,7 @@ defmodule SuperIssuerWeb.PageController do
   alias SuperIssuer.WeidAdapter, as: WeidAdapter
 
   @payload %{
-    name: "人人发证",
+    name: "超级发证",
     slogan: "人人都能构建自己的数字凭证系统",
     credetialverifier: %CredentialVerifier{},
     changeset: nil,
@@ -17,7 +17,7 @@ defmodule SuperIssuerWeb.PageController do
 
   def index(
         conn,
-        %{
+        %{"btn_clicked" => "verify",
           "credential_verifier" => %{
             # "pubkey" => pubkey,
             "file" => %Plug.Upload{
@@ -39,19 +39,42 @@ defmodule SuperIssuerWeb.PageController do
     |> render("index.html", payload: create_payload())
   end
 
-  @doc """
-    get action.
-  """
+  def index(conn, %{"btn_clicked" => "read",
+  "credential_verifier" => %{
+    # "pubkey" => pubkey,
+    "file" => %Plug.Upload{
+      filename: _f_name,
+      path: path
+    }
+  }}) do
+    credential =
+      path
+      |> File.read!()
+      |> Poison.decode!()
+    conn
+    |> put_session(:credential, credential)
+    |> redirect(to: Routes.credential_path(conn, :index))
+  end
+
+  def index(conn, %{"login_out" => "yes"}) do
+    conn
+    |> clear_session()
+    |> redirect(to: Routes.page_path(conn, :index))
+  end
+
   def index(conn, _params) do
+
     render(conn, "index.html", payload: create_payload())
   end
 
   def handle_msg(true), do: "证书合法！"
 
-  def handle_msg(other), do: "证书非法！原因：#{other}"
+  def handle_msg(other), do: "验证失败！原因：#{other}"
 
   def create_payload() do
     changeset = Ecto.Changeset.change(%CredentialVerifier{})
     %{@payload | changeset: changeset}
   end
+
+
 end

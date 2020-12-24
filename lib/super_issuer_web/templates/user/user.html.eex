@@ -1,1 +1,7 @@
-<%=@payload.login? %>
+<%= if @login? do %>
+    <b>user name: </b><%= @user.username %>
+    <br>
+    <%= button("login_out",
+    to: Routes.page_path(@conn, :index,  %{login_out: :yes}),
+     method: :post)%>
+<% end %>

@@ -11,15 +11,15 @@ defmodule SuperIssuer.User do
     timestamps()
   end
 
-  def get_by_username(username) when is_nil(username) do
+  def get_by_user_name(username) when is_nil(username) do
     nil
   end
 
-  def get_by_username(username) do
+  def get_by_user_name(username) do
     Repo.get_by(User, username: username)
   end
 
-  def get_by_userid(id) do
+  def get_by_user_id(id) do
     Repo.get_by(User, id: id)
   end
 

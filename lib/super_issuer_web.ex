@@ -24,6 +24,8 @@ defmodule SuperIssuerWeb do
       import Plug.Conn
       import SuperIssuerWeb.Gettext
       alias SuperIssuerWeb.Router.Helpers, as: Routes
+      # liveview
+      import Phoenix.LiveView.Controller
     end
   end
 
@@ -39,6 +41,9 @@ defmodule SuperIssuerWeb do
 
       # Include shared imports and aliases for views
       unquote(view_helpers())
+
+      # liveview
+      import Phoenix.LiveView.Helpers
     end
   end
 
@@ -48,6 +53,8 @@ defmodule SuperIssuerWeb do
 
       import Plug.Conn
       import Phoenix.Controller
+      # liveview
+      import Phoenix.LiveView.Router
     end
   end
 

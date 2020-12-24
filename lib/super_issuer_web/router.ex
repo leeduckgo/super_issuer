@@ -4,9 +4,11 @@ defmodule SuperIssuerWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_flash
+    # plug :fetch_flash
+    plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :put_root_layout, {SuperIssuerWeb.LayoutView, :root}
   end
 
   pipeline :require_auth do
@@ -28,6 +30,10 @@ defmodule SuperIssuerWeb.Router do
     get "/user/sign-in", SessionController, :new
     post "/user/sign-in", SessionController, :create
     get "/user", UserController, :index
+    get "/credential/credential", CredentialController, :index
+
+    live "/live/clock", ClockLive
+    live "/live/credential", CredentialLive
   end
 
   scope "/login_yet", SuperIssuerWeb do

@@ -1,6 +1,8 @@
 <section class="phx-hero">
+
+  <p><%= gettext "%{slogan}", slogan: @payload.slogan %></p>
   <h1><%= gettext "Welcome to %{name}!", name: @payload.name %></h1>
-  <p><%= @payload.slogan %></p>
+
 </section>
 <div>
   <center>
@@ -15,9 +17,10 @@
       <label>File</label>
       <%= file_input f, :file, class: "form-control" %>
     </div>
-
     <div class="form-group">
-      <%= submit "验！", class: "btn btn-primary" %>
+      <%= submit "读", class: "btn btn-primary", name: "btn_clicked", value: "read" %>
+      &nbsp&nbsp&nbsp
+      <%= submit "验", class: "btn btn-primary", name: "btn_clicked", value: "verify" %>
     </div>
   <% end %>
   <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>

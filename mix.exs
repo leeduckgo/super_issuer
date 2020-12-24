@@ -57,7 +57,12 @@ defmodule SuperIssuer.MixProject do
       {:ecto_enum, "~> 1.2"},
       # for login
       {:comeonin, "~> 4.0"},
-      {:bcrypt_elixir, "~> 1.0"}
+      {:bcrypt_elixir, "~> 1.0"},
+      # live_view
+      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view", override: true},
+      {:floki, ">= 0.27.0", only: :test},
+      # live clock example
+      {:nimble_strftime, ">= 0.0.0"}
     ]
   end
 

@@ -20,10 +20,15 @@ defmodule SuperIssuerWeb.UserController do
   end
 
   def index(conn, _) do
-    if get_session(conn, :current_user_id) do
-      render(conn, "user.html", payload: %{login?: true})
+    user_id = get_session(conn, :current_user_id)
+    if user_id do
+      user =
+        user_id
+        |> User.get_by_user_id()
+
+      render(conn, "user.html", %{login?: true, user: user})
     else
-      render(conn, "user.html", payload: %{login?: false})
+      redirect(conn, to: Routes.user_path(conn, :new))
     end
   end
 end

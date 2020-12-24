@@ -101,7 +101,6 @@ defmodule SuperIssuer.WeidAdapter do
     payload =
       @body_verify_credential
       |> Map.put("functionArg", credential)
-
     node
     |> Kernel.<>(@path.invoke)
     |> Http.post(payload)
