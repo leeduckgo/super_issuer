@@ -1,0 +1,7 @@
+<p><%= live_flash(@flash, :info_A) %></p>
+<p><%= live_flash(@flash, :info_B) %></p>
+<%= f = form_for @form, "#", [phx_submit: :up_to_chain] , fn f ->%>
+    <%= label f, :data_load_to_chain %>
+    <%= text_input f, :data_load_to_chain%>
+    <%= submit "To Chain",phx_disable_with: "To Chain.." %>
+<% end %>

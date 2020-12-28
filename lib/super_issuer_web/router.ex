@@ -30,10 +30,11 @@ defmodule SuperIssuerWeb.Router do
     get "/user/sign-in", SessionController, :new
     post "/user/sign-in", SessionController, :create
     get "/user", UserController, :index
-    get "/credential/credential", CredentialController, :index
+    get "/credential/show", CredentialController, :index
 
     live "/live/clock", ClockLive
     live "/live/credential", CredentialLive
+    live "/live/contract", ContractLive
   end
 
   scope "/login_yet", SuperIssuerWeb do

@@ -13,7 +13,7 @@ defmodule SuperIssuerWeb.SessionController do
       {:ok, user} ->
         conn
         |> put_session(:current_user_id, user.id)
-        |> put_flash(:info, "Signed in successfully.")
+        # |> put_flash(:info, "Signed in successfully.")
         |> redirect(to: Routes.page_path(conn, :index))
 
       {:error, _} ->
@@ -26,7 +26,7 @@ defmodule SuperIssuerWeb.SessionController do
   def delete(conn, _params) do
     conn
     |> delete_session(:current_user_id)
-    |> put_flash(:info, "Signed out successfully.")
+    # |> put_flash(:info, "Signed out successfully.")
     |> redirect(to: Routes.page_path(conn, :index))
   end
 end

@@ -1,4 +1,6 @@
 defmodule StructTranslater do
+  require Logger
+
   @doc """
     +----------------+\n
     | to atom struct |\n
@@ -12,10 +14,17 @@ defmodule StructTranslater do
   end
 
   def to_atom_struct(struct) when is_map(struct) do
-    for {key, val} <- struct, into: %{}, do: {String.to_atom(key), to_atom_struct(val)}
+    for {key, val} <- struct, into: %{}, do:
+    {translate_key(key), to_atom_struct(val)}
+
   end
 
-  def to_atom_struct(else_ele), do: else_ele
+  def translate_key(key) when is_atom(key),do: key
+  def translate_key(key), do: String.to_atom(key)
+
+  def to_atom_struct(else_ele) do
+    else_ele
+  end
 
   #  +----------------+
   #  | struct <=> map |

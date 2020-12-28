@@ -5,16 +5,19 @@ defmodule SuperIssuerWeb.CredentialController do
     credential =
       conn
       |> get_session(:credential)
+      |> StructTranslater.to_atom_struct()
+    IO.puts inspect credential
     render(
       clean_session(conn),
-      "index.html",
-      credential
-      )
+      "credential.html",
+      %{
+        credential: credential
+      })
   end
 
   def clean_session(conn) do
     conn
     |> fetch_session()
-    |> delete_session(:credential)
+    # |> delete_session(:credential)
   end
 end
