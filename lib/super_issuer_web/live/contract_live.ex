@@ -9,7 +9,7 @@ defmodule SuperIssuerWeb.ContractLive do
   end
 
   def mount(_params, %{
-    "current_user_id" => _
+    "current_user_id" => 1
   }, socket) do
 
     changeset = Contract.changeset(%Contract{})
