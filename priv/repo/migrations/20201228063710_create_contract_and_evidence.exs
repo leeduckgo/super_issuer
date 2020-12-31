@@ -18,8 +18,8 @@ defmodule SuperIssuer.Repo.Migrations.CreateContractAndEvidence do
       add :describe, :string
       add :tx_id, :string
 
-      add :owners, {:array, :integer}
-      add :signers, {:array, :integer}
+      add :owners, {:array, :string}
+      add :signers, {:array, :string}
       add :contract_id, :integer
 
       timestamps()

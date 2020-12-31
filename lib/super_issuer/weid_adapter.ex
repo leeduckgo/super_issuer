@@ -6,6 +6,7 @@ defmodule SuperIssuer.WeidAdapter do
 
   """
 
+  @node System.get_env("weid_node")
   @weid_path "/weid/api/"
   @path %{
     invoke: @weid_path <> "invoke",
@@ -25,7 +26,7 @@ defmodule SuperIssuer.WeidAdapter do
   @body_register_authority_issuer %{@payload_basic | "functionName" => "registerAuthorityIssuer"}
   @body_query_authority_issuer %{@payload_basic | "functionName" => "queryAuthorityIssuer"}
   @body_verify_credential %{@payload_basic | "functionName" => "verifyCredential"}
-
+  @body_verify_credential_pojo %{@payload_basic | "functionName" => "verifyCredentialPojo"}
   @doc """
     create weid hosting by weid-restful-service
   """
@@ -34,9 +35,9 @@ defmodule SuperIssuer.WeidAdapter do
     MockCenter.create_weid_result()
   end
 
-  @spec create_weid(String.t()) :: {:error, any} | {:ok, any}
-  def create_weid(node) do
-    node
+  @spec create_weid() :: {:error, any} | {:ok, any}
+  def create_weid() do
+    @node
     |> Kernel.<>(@path.invoke)
     |> Http.post(@body_create_weid)
     |> handle_result()
@@ -45,10 +46,10 @@ defmodule SuperIssuer.WeidAdapter do
   def get_weid_document(:test, _) do
   end
 
-  def get_weid_document(node, weid) do
+  def get_weid_document(weid) do
     body_get_weid_doc = %{@body_get_weid_doc | "functionArg" => %{"weId" => weid}}
 
-    node
+    @node
     |> Kernel.<>(@path.invoke)
     |> Http.post(body_get_weid_doc)
     |> handle_result()
@@ -57,9 +58,9 @@ defmodule SuperIssuer.WeidAdapter do
   def register_authority_issuer(:test, _, _, _, _) do
   end
 
-  @spec register_authority_issuer(String.t(), String.t(), String.t(), String.t()) ::
+  @spec register_authority_issuer(String.t(), String.t(), String.t()) ::
           {:error, any} | {:ok, true}
-  def register_authority_issuer(node, issuer_weid, org_name, invoker_weid) do
+  def register_authority_issuer(issuer_weid, org_name, invoker_weid) do
     function_arg = %{"weId" => issuer_weid, "name" => org_name}
     invoker_weid_arg = %{"invokerWeId" => invoker_weid}
 
@@ -68,7 +69,7 @@ defmodule SuperIssuer.WeidAdapter do
       |> Map.put("functionArg", function_arg)
       |> Map.put("transactionArg", invoker_weid_arg)
 
-    node
+    @node
     |> Kernel.<>(@path.invoke)
     |> Http.post(payload)
     |> handle_result()
@@ -77,12 +78,12 @@ defmodule SuperIssuer.WeidAdapter do
   def query_authority_issuer(:test, _) do
   end
 
-  def query_authority_issuer(node, query_weid) do
+  def query_authority_issuer(query_weid) do
     payload =
       @body_query_authority_issuer
       |> Map.put("functionArg", %{"weId" => query_weid})
 
-    node
+    @node
     |> Kernel.<>(@path.invoke)
     |> Http.post(payload)
     |> handle_result()
@@ -97,11 +98,21 @@ defmodule SuperIssuer.WeidAdapter do
   def verify_credential(:test, _) do
   end
 
-  def verify_credential(node, credential) do
+  def verify_credential_pojo(credential) do
+    payload =
+      @body_verify_credential_pojo
+      |> Map.put("functionArg", credential)
+    @node
+    |> Kernel.<>(@path.invoke)
+    |> Http.post(payload)
+    |> handle_result()
+  end
+
+  def verify_credential(credential) do
     payload =
       @body_verify_credential
       |> Map.put("functionArg", credential)
-    node
+    @node
     |> Kernel.<>(@path.invoke)
     |> Http.post(payload)
     |> handle_result()
@@ -110,15 +121,15 @@ defmodule SuperIssuer.WeidAdapter do
   @doc """
     create_weid_by_pubkey
   """
-  def create_weid(node, priv, pubkey) do
-    with {:ok, %{"nonce" => nonce, "data" => data}} <- create_weid_first_step(node, pubkey) do
-      create_weid_second_step(node, nonce, data, priv)
+  def create_weid(priv, pubkey) do
+    with {:ok, %{"nonce" => nonce, "data" => data}} <- create_weid_first_step(pubkey) do
+      create_weid_second_step(@node, nonce, data, priv)
     else
       error -> error
     end
   end
 
-  defp create_weid_first_step(node, pubkey) do
+  defp create_weid_first_step(pubkey) do
     nonce = RandGen.gen_num(32)
 
     body_create_weid =
@@ -127,7 +138,7 @@ defmodule SuperIssuer.WeidAdapter do
       |> Map.put("transactionArg", %{"nonce" => inspect(nonce)})
 
     result =
-      node
+      @node
       |> Kernel.<>(@path.encode)
       |> Http.post(body_create_weid)
       |> handle_result()

@@ -3,6 +3,9 @@ defmodule SuperIssuerWeb.ClockLive do
 
   def render(assigns) do
     ~L"""
+    <%= live_render(@socket,
+    SuperIssuerWeb.EvidencerLive,
+    id: "evidence") %>
     <div>
       <h2>It's <%= NimbleStrftime.format(@date, "%H:%M:%S") %></h2>
       <%= live_render(@socket, SuperIssuerWeb.ImageLive, id: "image") %>

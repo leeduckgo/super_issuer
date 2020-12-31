@@ -32,7 +32,7 @@ defmodule SuperIssuerWeb.PageController do
       |> File.read!()
       |> Poison.decode!()
 
-    {_result, msg} = WeidAdapter.verify_credential(System.get_env("weid_node"), credential)
+    {_result, msg} = WeidAdapter.verify_credential_pojo(credential)
 
     conn
     |> put_flash(:info, handle_msg(msg))

@@ -18,6 +18,14 @@ defmodule SuperIssuer.Contract do
     Repo.get_by(Contract, addr: addr)
   end
 
+  def get_by_type(type) do
+    Repo.all(Contract, type: type)
+  end
+
+  def get_by_describe(item) do
+    Repo.get_by(Contract, describe: item)
+  end
+
   def create(attrs \\ %{}) do
     %Contract{}
     |> Contract.changeset(attrs)
@@ -32,5 +40,6 @@ defmodule SuperIssuer.Contract do
   def changeset(%Contract{} = contract, attrs) do
     contract
     |> cast(attrs, [:addr, :type, :describe, :creater, :init_params])
+    |> unique_constraint(:describe)
   end
 end

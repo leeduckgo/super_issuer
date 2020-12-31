@@ -1,6 +1,6 @@
 defmodule SuperIssuerWeb.UserController do
   use SuperIssuerWeb, :controller
-  alias SuperIssuer.User
+  alias SuperIssuer.{User, WeidAdapter}
 
   def new(conn, _params) do
     changeset = User.change_user(%User{})
@@ -8,7 +8,11 @@ defmodule SuperIssuerWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    case User.create_user(user_params) do
+    {:ok, weid} = WeidAdapter.create_weid()
+    user_params_with_weid =
+      user_params
+      |> Map.put("weid", weid)
+    case User.create_user(user_params_with_weid) do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "Signed up successfully.")

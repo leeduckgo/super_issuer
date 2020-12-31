@@ -34,7 +34,12 @@ defmodule SuperIssuerWeb.Router do
 
     live "/live/clock", ClockLive
     live "/live/credential", CredentialLive
+    live "/live/credential/new", CredentialLive.New
     live "/live/contract", ContractLive
+    live "/live/evidence", EvidencerLive
+
+    live "/live/top", TopLive
+
   end
 
   scope "/login_yet", SuperIssuerWeb do

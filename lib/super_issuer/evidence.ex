@@ -9,8 +9,8 @@ defmodule SuperIssuer.Evidence do
     field :value, :string
     field :describe, :string
     field :tx_id, :string
-    field :owners, {:array, :integer}
-    field :signers, {:array, :integer}
+    field :owners, {:array, :string}
+    field :signers, {:array, :string}
     belongs_to :contract, Contract
     timestamps()
   end
