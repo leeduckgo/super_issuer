@@ -4,6 +4,6 @@
     <b>weid: </b><%= @user.weid %>
     <br>
     <%= button("login_out",
-    to: Routes.page_path(@conn, :index,  %{login_out: :yes}),
+    to: Routes.index_path(@conn, :index,  %{login_out: :yes}),
      method: :post)%>
 <% end %>

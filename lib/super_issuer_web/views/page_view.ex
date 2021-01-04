@@ -1,3 +1,3 @@
-defmodule SuperIssuerWeb.PageView do
+defmodule SuperIssuerWeb.IndexView do
   use SuperIssuerWeb, :view
 end

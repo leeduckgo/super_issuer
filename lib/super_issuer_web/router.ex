@@ -4,15 +4,10 @@ defmodule SuperIssuerWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    # plug :fetch_flash
     plug :fetch_live_flash
+    plug :put_root_layout, {SuperIssuerWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug :put_root_layout, {SuperIssuerWeb.LayoutView, :root}
-  end
-
-  pipeline :require_auth do
-    plug(SuperIssuerWeb.Middleware.RequireAuth)
   end
 
   pipeline :api do
@@ -21,15 +16,16 @@ defmodule SuperIssuerWeb.Router do
 
   scope "/", SuperIssuerWeb do
     pipe_through :browser
-    # index
-    get "/", PageController, :index
-    post "/", PageController, :index
-    # user pathes
-    # user new then create
+    get "/", IndexController, :index
+    post "/", IndexController, :index
+
+    get "/test", TestController, :index
+
     resources "/user/registrations", UserController, only: [:create, :new]
     get "/user/sign-in", SessionController, :new
     post "/user/sign-in", SessionController, :create
     get "/user", UserController, :index
+
     get "/credential/show", CredentialController, :index
 
     live "/live/clock", ClockLive
@@ -40,11 +36,7 @@ defmodule SuperIssuerWeb.Router do
 
     live "/live/top", TopLive
 
-  end
-
-  scope "/login_yet", SuperIssuerWeb do
-    pipe_through([:browser, :require_auth])
-    get "/test", TestController, :index
+    # live "/", PageLive, :index
   end
 
   # Other scopes may use custom stacks.

@@ -7,7 +7,7 @@ defmodule SuperIssuerWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_super_issuer_key",
-    signing_salt: "Go/hx/kJ"
+    signing_salt: "RBJL05/5"
   ]
 
   socket "/socket", SuperIssuerWeb.UserSocket,

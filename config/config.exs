@@ -13,10 +13,10 @@ config :super_issuer,
 # Configures the endpoint
 config :super_issuer, SuperIssuerWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "Wqs0GjeX++CnjF5xIi3jO61moTo7tbr9A6dUyUGgj6a34ecVsBILIX+dhNtXDHtS",
+  secret_key_base: "YmRu8wzmBjVxS9M2hPnEeA2pONrBZpa+Vznza8UASYkTWzMUaqazrnNeKvPWxXg3",
   render_errors: [view: SuperIssuerWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: SuperIssuer.PubSub,
-  live_view: [signing_salt: "AHneBGT6"]
+  live_view: [signing_salt: "pV3UtlmN"]
 
 # Configures Elixir's Logger
 config :logger, :console,

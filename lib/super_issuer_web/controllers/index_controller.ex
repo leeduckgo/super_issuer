@@ -1,4 +1,4 @@
-defmodule SuperIssuerWeb.PageController do
+defmodule SuperIssuerWeb.IndexController do
   use SuperIssuerWeb, :controller
   alias SuperIssuer.CredentialVerifier, as: CredentialVerifier
   alias SuperIssuer.WeidAdapter, as: WeidAdapter
@@ -59,7 +59,7 @@ defmodule SuperIssuerWeb.PageController do
   def index(conn, %{"login_out" => "yes"}) do
     conn
     |> clear_session()
-    |> redirect(to: Routes.page_path(conn, :index))
+    |> redirect(to: Routes.index_path(conn, :index))
   end
 
   def index(conn, _params) do

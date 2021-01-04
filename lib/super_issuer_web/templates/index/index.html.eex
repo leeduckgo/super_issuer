@@ -23,13 +23,13 @@
       <%= submit "验", class: "btn btn-primary", name: "btn_clicked", value: "verify" %>
     </div>
   <% end %>
-  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
 </div>
 
   <%= if Plug.Conn.get_session(@conn, :current_user_id) do %>
-    <%= button("add evidence",
+    <%= live_render(@conn, SuperIssuerWeb.EvidencerLive) %>
+    <!--<%= button("add evidence",
     to: "live/evidence",
-    method: :get)%>
+    method: :get)%>-->
     <br>
     <%= button("add contract",
       to: "live/contract",

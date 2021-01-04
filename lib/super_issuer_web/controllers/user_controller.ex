@@ -16,7 +16,7 @@ defmodule SuperIssuerWeb.UserController do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "Signed up successfully.")
-        |> redirect(to: Routes.page_path(conn, :index))
+        |> redirect(to: Routes.index_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "sign_up.html", changeset: changeset)

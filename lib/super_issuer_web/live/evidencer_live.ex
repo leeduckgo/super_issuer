@@ -81,6 +81,7 @@ defmodule SuperIssuerWeb.EvidencerLive do
       contract.addr,
       data
     )
+    IO.puts inspect tx_id
     {:ok, evi} =
       Repo.transaction(fn ->
         Evidence.create(%{
